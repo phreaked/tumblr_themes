@@ -1,0 +1,412 @@
+<html>
+<head>
+<!-- v1.1 -->
+<title>{Title}</title>
+<link rel="shortcut icon" href="{Favicon}">
+<link rel="alternate" type="application/rss+xml" href="{RSS}">
+{block:Description}
+<meta name="description" content="{MetaDescription}" />
+{/block:Description}
+
+<meta name="color:Background" content="#eeeeee"/>
+<meta name="color:Text" content="#000000"/>
+<meta name="color:Links" content="#000000"/>
+<meta name="color:Hover" content="#0000000"/>
+<meta name="color:Header" content="#ffffff"/>
+<meta name="color:Posts" content="#ffffff"/>
+<meta name="color:Border" content="#000000"/>
+<meta name="text:Link 1" content=""/>
+<meta name="text:Link 1 Title" content=""/>
+<meta name="text:Link 2" content=""/>
+<meta name="text:Link 2 Title" content=""/>
+<meta name="text:Link 3" content=""/>
+<meta name="text:Link 3 Title" content=""/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+
+<script>
+$(function(){
+    var headerHeight = $('.fixed-header').outerHeight(true);
+    headerHeight = Math.ceil(headerHeight);
+    var $postContainer = $('#posts');
+    var $grid = $postContainer.masonry({itemSelector: '.post'});
+    var msnry = $grid.data('masonry');
+    $postContainer
+        .css({'margin-top': (headerHeight + 15) + 'px'})
+        .animate({'opacity': 1}, 'slow');
+    var $infinteScroll = $postContainer.infiniteScroll({
+        path: '.next',
+        append: '.post',
+        outlayer: msnry,
+        status: '.loading',
+        history: false
+    });
+}); 
+</script>
+
+<style>
+    html, body{
+        margin:0px;
+        padding:0px;
+        color:{color:text};
+        background:{color:Background};
+        font-family: 'Roboto', sans-serif;
+        font-size:14px;
+        line-height:auto;
+    }
+    
+    a{
+        text-decoration:none;
+        color:{color:Links};
+    }
+    
+    a:hover{
+        text-decoration:none;
+        color:{color:Hover};
+    }
+    
+    .fixed-header{
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        background:{color:Header};
+        z-index:1;
+    }
+    
+    .header{
+        display:flex;
+        justify-content:flex-start;
+        {block:IndexPage}
+        width:1060px;
+        {/block:IndexPage}
+        {block:PermalinkPage}
+        width:500px;
+        {/block:PermalinkPage}
+        padding:20px;
+        margin:0 auto;
+    }
+    
+    .portrait{
+        height:80px;
+        width:80px;
+        margin-right:20px;
+        border-radius:100%;
+        overflow:hidden;
+    }
+    
+    .portrait img{
+        display:block;
+    }
+    
+    .blog-title{
+        margin:5px 0;
+        font-size:24px;
+        font-weight:bold;
+    }
+    
+    .blog-desc{
+        margin-bottom:10px;
+    }
+    
+    .nav{
+        display:block;
+    }
+    
+    .nav a{
+        font-weight:bold;
+        margin-right:10px;
+    }
+    
+    #posts{
+        {block:IndexPage}
+        width:1120px;
+        {/block:IndexPage}
+        {block:PermalinkPage}
+        width:560px;
+        {/block:PermalinkPage}
+        padding:0 0 15px 0;
+        margin:0 auto;
+        opacity:0;
+    }
+    
+    .post{
+        width:500px;
+        padding:15px;
+        margin:15px;
+        background:{color:Posts};
+    }
+    
+    .title{
+        font-weight:bold;
+        margin-bottom:10px;
+    }
+    
+    .line{
+        margin:5px;
+    }
+    
+    .label{
+        font-weight:bold;
+    }
+    
+    .stats{
+        display:flex;
+        justify-content:space-between;
+        margin-top:10px;
+    }
+    
+    .captions{
+        margin-top:10px;
+    }
+    
+    .post-info{
+        margin-top:10px;
+    }
+    
+    .post-info span{
+        display:block;
+    }
+    
+    .post-notes{
+        margin-top:10px;
+        overflow-x:hidden;
+        overflow-y:scroll;
+        min-height:0;
+        max-height:400px;
+    }
+    
+    .notes img{
+        display:none;
+    }
+    
+    ol.notes{
+        list-style:none;
+        padding:0;
+        margin:0;
+    }
+    
+    .notes li{
+        margin:5px 0;
+        padding:0;
+    }
+    
+    .notes blockquote{
+        margin:5px 0;
+    }
+    
+    .notes li .action a{
+        font-weight:bold;
+    }
+    
+    .text a.tumblr_blog,
+    .captions a.tumblr_blog{
+        font-weight:bold;
+    }
+    
+    .photo img,
+    .text img{
+        width:100%;
+        height:auto;
+    }
+    
+    .captions p,
+    .text p{
+        margin:0 0 10px 0;
+        padding:0;
+    }
+    
+    .post figure{
+        margin:0;
+        padding:0;
+    }
+    
+    .post blockquote{
+        margin:0 0 0 5px;
+        padding:0 0 0 10px;
+        border-left:1px dotted {color:border};
+    }
+    
+    .sources{
+        display:none;
+    }
+    
+    .next{
+        display:none;
+    }
+    
+    .loading{
+        position:fixed;
+        left:20px;
+        bottom:20px;
+        display:none;
+        font-style:italic;
+        background:{color:Posts};
+        padding:10px 12px;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="fixed-header">
+<div class="header">
+    <div class="portrait">
+        <img src="{PortraitURL-96}" draggable="false"/>
+    </div>
+    <div>
+        <div class="blog-title">{Title}</div>
+        {block:Description}
+        <div class="blog-desc">{Description}</div>
+        {/block:Description}
+        <div class="nav">
+            <a href="/">home</a>
+            <a href="/ask">message</a>
+            {block:IfLink1Title}
+            <a href="{text:Link 1}">{text:Link 1 Title}</a>
+            {/block:IfLink1Title}
+            {block:IfLink2Title}
+            <a href="{text:Link 2}">{text:Link 2 Title}</a>
+            {/block:IfLink2Title}
+            {block:IfLink3Title}
+            <a href="{text:Link 3}">{text:Link 3 Title}</a>
+            {/block:IfLink3Title}
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="posts">
+{block:Posts}
+<div class="post">
+
+    {block:Text}
+        <div class="text">
+        {block:Title}
+        <div class="title"><a href="{Permalink}">{Title}</a></div>
+        {/block:Title}
+        {Body}
+        </div>
+    {/block:Text}
+
+    {block:Photo}
+        <div class="photo">
+        <a href="{Permalink}"><img src="{PhotoURL-500}" alt="{PhotoAlt}"/></a>
+        </div>
+    {/block:Photo}
+
+    {block:Panorama}
+        <div class="panorama">
+        {LinkOpenTag}
+        <img src="{PhotoURL-Panorama}" alt="{PhotoAlt}"/>
+        {LinkCloseTag}
+        </div>
+    {/block:Panorama}
+
+    {block:Photoset}
+        <div class="photoset">
+        {Photoset-500}
+        </div>
+    {/block:Photoset}
+
+    {block:Quote}
+        <div class="quote">
+        "{Quote}"
+        {block:Source}
+        <div class="source">{Source}</div>
+        {/block:Source}
+        </div>
+    {/block:Quote}
+
+    {block:Link}
+        <div class="link">
+        <a href="{URL}" class="link" {Target}>{Name}</a>
+        {block:Description}
+        <div class="description">{Description}</div>
+        {/block:Description}
+        </div>
+    {/block:Link}
+
+    {block:Chat}
+        <div class="chat">
+        {block:Title}
+        <div class="title"><a href="{Permalink}">{Title}</a></div>
+        {/block:Title}
+        {block:Lines}
+        <div class="line {Alt} user_{UserNumber}">
+        {block:Label}
+        <span class="label">{Label}</span>
+        {/block:Label}{Line}
+        </div>
+        {/block:Lines}
+        </div>
+    {/block:Chat}
+
+    {block:Video}
+        <div class="video">
+        {Video-500}
+        </div>
+    {/block:Video}
+    
+    {block:Audio}
+        <div class="audio">
+        {AudioEmbed}
+        </div>
+    {/block:Audio}
+    
+    {block:Caption}
+        <div class="captions">{Caption}</div>
+    {/block:Caption}
+    
+    {block:IndexPage}
+    <div class="stats">
+    <div>
+    <b>{TimeAgo}</b> / <a href="{Permalink}">{NoteCountWithLabel}</a>
+    </div>
+    <div>
+    <a href="{ReblogURL}" target="blank">reblog</a>
+    </div>
+    </div>
+    {/block:IndexPage}
+    
+    {block:PermalinkPage}
+    {block:Date}
+    <div class="post-info">
+    <span><b>Date:</b> {TimeAgo}</span>
+    <span><b>Notes:</b> {NoteCount}</span>
+    {block:HasTags}<span><b>Tags:</b>{block:Tags} {Tag}{/block:Tags}</span>{/block:HasTags}
+    {block:ContentSource}<span><b>Source:</b> {SourceTitle}</span>{/block:ContentSource}
+    {block:RebloggedFrom}<span><b>Reblog:</b> {ReblogParentName}</span>{/block:RebloggedFrom}
+    </div>
+    {/block:Date}
+    {block:PostNotes}
+    <div class="post-notes">{PostNotes}</div>
+    {/block:PostNotes}
+    {/block:PermalinkPage}
+    
+    <div class="sources">
+    {block:ContentSource}{SourceURL}
+    {block:SourceLogo}<img src="{BlackLogoURL}"width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />{/block:SourceLogo}
+    {block:NoSourceLogo}{SourceLink}{/block:NoSourceLogo}
+    {/block:ContentSource}
+    {block:NoRebloggedFrom}
+    {block:RebloggedFrom}{ReblogParentName}{/block:RebloggedFrom}
+    {/block:NoRebloggedFrom}
+    </div>
+
+</div>
+{/block:Posts}
+</div>
+
+<div class="loading">loading...</div>
+
+{block:NextPage}
+<a href="{NextPage}" class="next"></a>
+{/block:NextPage}
+
+</body>
+</html>
